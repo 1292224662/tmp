@@ -1,8 +1,8 @@
 data_cfg:
   dataset_name: GREW
-  dataset_root: your_path
+  dataset_root: ../GREW-pkl/
   dataset_partition: ./datasets/GREW/GREW.json
-  num_workers: 1
+  num_workers: 2
   remove_no_gallery: false # Remove probe if no gallery for it
   test_dataset_name: GREW
 
