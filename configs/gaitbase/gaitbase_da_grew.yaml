@@ -63,7 +63,7 @@ model_cfg:
   bin_num:
     - 16
 optimizer_cfg:
-  lr: 0.1
+  lr: 0.025
   momentum: 0.9
   solver: SGD
   weight_decay: 0.0005

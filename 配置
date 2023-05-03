@@ -1,8 +1,12 @@
-
+sudo apt install zip
+Y
 sudo apt install unzip
+Y
 hdfs dfs -get hdfs://haruna/home/byte_data_aml/user/zhaoyuwei/tmp/GREW.zip
 pip3 install opencv-python
 pip3 install opencv-python-headless
+pip3 install tensorboard
 pip3 install kornia
 pip3 install gpustat
+unzip GREW.zip
 CUDA_VISIBLE_DEVICES=0,1,2,3 python3 -m torch.distributed.launch --nproc_per_node=4 --master_port=1234  opengait/main.py --cfgs ./configs/gaitbase/gaitbase_da_grew.yaml --phase train
