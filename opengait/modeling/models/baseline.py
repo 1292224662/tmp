@@ -2,7 +2,7 @@ import torch
 
 from ..base_model import BaseModel
 from ..modules import SetBlockWrapper, HorizontalPoolingPyramid, PackSequenceWrapper, SeparateFCs, SeparateBNNecks
-
+import numpy as np
 
 class Baseline(BaseModel):
 
@@ -13,6 +13,7 @@ class Baseline(BaseModel):
         self.BNNecks = SeparateBNNecks(**model_cfg['SeparateBNNecks'])
         self.TP = PackSequenceWrapper(torch.max)
         self.HPP = HorizontalPoolingPyramid(bin_num=model_cfg['bin_num'])
+        self.LA = model_cfg['LA'] if 'LA' in model_cfg else False
 
     def forward(self, inputs):
         ipts, labs, _, _, seqL = inputs
@@ -22,7 +23,12 @@ class Baseline(BaseModel):
             sils = sils.unsqueeze(1)
 
         del ipts
-        outs = self.Backbone(sils)  # [n, c, s, h, w]
+        if self.LA:
+            # if seqL==None:
+            #     seqL = torch.tensor([[sils.shape[2] for i in range(sils.shape[0])]]).int().to(sils.device)
+            outs = self.Backbone(sils, seqL=seqL)
+        else:
+            outs = self.Backbone(sils)  # [n, c, s, h, w]
 
         # Temporal Pooling, TP
         outs = self.TP(outs, seqL, options={"dim": 2})[0]  # [n, c, h, w]

@@ -11,6 +11,7 @@ class CollateFn(object):
         sample_type = sample_type.split('_')
         self.sampler = sample_type[0]
         self.ordered = sample_type[1]
+        # self.return_length = sample_type[2] if len(sample_type)>=3 else 'no'
         if self.sampler not in ['fixed', 'unfixed', 'all']:
             raise ValueError
         if self.ordered not in ['ordered', 'unordered']:
